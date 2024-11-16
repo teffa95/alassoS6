@@ -7,7 +7,16 @@
         <Label 
             Text="ACTUALIZAR / ELIMINAR ESTUDIANTES"
             VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            FontSize="24"
+            TextColor="White"
+            BackgroundColor="Blue"
+            Padding="20"
+ />
+        
+        
+        
         <Entry x:Name="txtCodigo"
                IsReadOnly="True"/>
         <Entry x:Name="txtNombre"

@@ -17,22 +17,36 @@ public partial class vEstudiante : ContentPage
 
 	public async void mostrar()
 	{
-		var content = await client.GetStringAsync(Url);
-		List<Estudiante> mostarEst = JsonConvert.DeserializeObject<List<Estudiante>>(content);
-		estud = new ObservableCollection<Estudiante>(mostarEst);
-		lvEstudiantes.ItemsSource = estud;
-	}
+        try
+        {
+            var content = await client.GetStringAsync(Url);
+            List<Estudiante> mostarEst = JsonConvert.DeserializeObject<List<Estudiante>>(content);
+            estud = new ObservableCollection<Estudiante>(mostarEst);
+            lvEstudiantes.ItemsSource = estud;
+        }
+        catch (HttpRequestException ex)
+        {
+            await DisplayAlert("Error", $"Error al obtener datos: {ex.Message}", "OK");
+        }
+        catch (JsonException ex)
+        {
+            await DisplayAlert("Error", $"Error al procesar datos: {ex.Message}", "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Ha ocurrido un error: {ex.Message}", "OK");
+        }
+    }
 
-	private void btnInsertar_Clicked(object sender, EventArgs e)
-	{
-		Navigation.PushAsync(new vInsertar());
-	}
-	
+    private void btnInsertar_Clicked(object sender, EventArgs e)
+    {
+        Navigation.PushAsync(new vInsertar());
+    }
 
     private void lvEstudiantes_ItemSelected_1(object sender, SelectedItemChangedEventArgs e)
     {
-		var objEstudiante = (Estudiante)e.SelectedItem;
-		Navigation.PushAsync(new vActElim(objEstudiante));
+        var objEstudiante = (Estudiante)e.SelectedItem;
+        Navigation.PushAsync(new vActElim(objEstudiante));
     }
-
 }
+
